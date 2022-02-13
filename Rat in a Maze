@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdbool.h>
+#define n 5
+
+bool visit(char [][n], int [][n], int, int);
+// TODO: fill the route matrix with 0's or 1‘s.
+// If there isn't any route, return false; otherwise, return true.
+bool visit(char maze[][n], int route[][n], int originX, int originY) {
+    if(maze[originY][originX] == 'w' ) return false;
+    if(originX > 4 || originX < 0 || originY > 4 || originY < 0) return false;
+    if (originX == 4 && originY == 4)
+    {
+        route[originY][originX] = 1;
+        return true;
+    }
+    maze[originY][originX] = 'w';
+    for(int i = 0;i<4;i++)
+    {
+        int rotate[2][4] = { {1, 0, -1, 0},
+                             {0, 1, 0, -1} };
+    if ( visit(maze, route, (originX + rotate[1][i]) ,(originY + rotate[0][i]) ) == true)
+    {
+        route[originY][originX] = 1;
+        break;
+    }
+}
+if(route[originY][originX] == 1) return true;
+else return false;
+}
+
+int main(void) {
+    char maze[n][n];
+    int route[n][n];
+    // initialize maze and route matrices
+    for (int i=0; i<n; i++) {
+        for (int j=0; j<n; j++) {
+	        route[i][j]=0;
+	        scanf("%c", &maze[i][j]);
+	        getchar();
+	    }
+    }
+    if (visit(maze, route, 0, 0)) { // (0,0) is a starting point
+        for (int i=0; i<n; i++) {
+	        for (int j=0; j<n; j++)
+	            printf("%d ", route[i][j]);
+	        printf("\n");
+        }
+    } else {
+	    printf("Can't find the exit!");
+    }
+    return 0;
+}
