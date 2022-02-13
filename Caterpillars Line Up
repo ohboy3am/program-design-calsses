@@ -1,0 +1,21 @@
+void swap(char *a, char *b) {
+    char tmp;
+    tmp = *a; *a = *b; *b = tmp;
+}
+
+void reverse_caterpillar(char *l, char *r) {
+    while(l < r)
+        swap(l++, r--);
+}
+
+void lineup_again(char line[]) {
+    char *head = line , *tail = line;
+    int parity = 0;
+
+    for (; *line != '\0'; line++){
+        if(*line == 'A') {head = line; parity++;}
+        if(*line == 'Z') {tail = line; parity++;}
+        if(head > tail && (parity%2) == 0) reverse_caterpillar(tail, head);
+    }
+
+}
