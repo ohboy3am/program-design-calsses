@@ -1,0 +1,12 @@
+#include<stdio.h>
+
+int main(void){
+    float x, y;
+    scanf("%f%f", &x, &y);
+    printf("\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\n");
+    printf("\\    %3.0f%%off!    \\\n", x);
+    printf("\\ Before  $%5.0f \\\n", y);
+    printf("\\ After   $%5.2f \\\n", y *( 1- (x / 100)));
+    printf("\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"");
+    return 0;
+}
