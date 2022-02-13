@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main () {
+    int width;
+    scanf("%d", &width);
+    #define n width / 10
+    long combinations[n] ;
+    combinations[0] = 1;
+    combinations[1] = 2;
+    for(int i = 2; i < (width / 10); i++){
+        combinations[i] = combinations[i - 1] + combinations[i - 2];
+    }
+        printf("%ld", combinations[n - 1]);
+    return 0;
+}
