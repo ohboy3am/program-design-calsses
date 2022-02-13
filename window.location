@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct
+{
+    char *protocol;
+    char *host;
+    char *pathname;
+    char *search;
+    char *hash;
+    int port;
+} Location;
+
+Location *parse_url(char *url);
+int power(int a, int b){
+    if(b ==0) return 1;
+
+    return a*power(a, b-1);
+}
+
+Location *parse_url(char *url)
+{
+    char ch, sign[5] = {':', '/', '?', '#', '\n'}, *index;
+    Location *result = malloc(sizeof(Location));
+    result -> port = 0;
+    static char url_copy[505];
+    index = url_copy;
+
+    result -> protocol = index;
+    while(*url !=':') *(index++) = *(url++);
+    *index = '\0';
+    result -> pathname = index;  //初始化為'\'0'
+    result -> search = index;
+    result -> hash = index++;
+
+    result -> host = index;
+    url += 3; //跳過"//"
+    while(url != NULL){
+        while(*url != sign[0] && *url != sign[1] && *url != sign[2] && *url != sign[3] && *url != sign[4])
+            *(index++) = *(url++);
+        *index++ = '\0';
+
+        int count = 0;
+
+        switch(*url++){
+            case':':
+                while(*url != sign[1] && *url != sign[2] && *url != sign[3] && *url != sign[4]){ //計算是幾位數字
+                    count++;
+                    url++;
+                }
+                url -= count;
+                for(int i = 0;i < count;i++){
+
+                    result -> port += (*(url++)-'0') * power( 10, (count-i-1));
+
+                }
+                sign[0] = '\n';
+                break;
+
+            case'/':
+                result -> pathname = index;
+                sign[1] = '\n';
+                break;
+
+            case'?':
+                result -> search = index;
+                sign[2] = '\n';
+                break;
+
+            case'#':
+                result -> hash = index;
+                sign[3] = '\n';
+                break;
+
+            case'\n':
+                return result;
+
+            default: break;
+        }
+
+
+    }
+
+
+
+}
+
+int main()
+{
+    char url[500] = "";
+    fgets(url, 500, stdin); // Get url string
+    Location *l = parse_url(url);
+    printf("Location {\n  protocol: %s,\n  host: %s,\n", l->protocol, l->host);
+    if (l->port)
+        printf("  port: %d,\n", l->port);
+    else
+        printf("  port: (default),\n");
+    printf("  pathname: /%s,\n  search: ?%s,\n  hash: #%s,\n}\n", l->pathname, l->search, l->hash);
+    return 0;
+}
