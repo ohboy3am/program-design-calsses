@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define MAX_N 1024
+
+void convert_to_polar(int *coords, int N);
+void convert_to_polar(int *coords, int N)
+{
+    double matrix[N][2], *m;
+    m = &matrix[0][0];
+    for(int i = 0; i < N*2;i++)
+    {
+        m[i]=(double)coords[i];
+    }
+    for(int i = 0; i < N;i++)
+    {
+        double angle;
+        angle= atan(matrix[i][1]/matrix[i][0])*180/M_PI;
+        angle += angle >= 0 ?  0 : 180;
+        angle += matrix[i][1] >= 0 ?  0 : 180;
+        if(matrix[i][1] == 0 && matrix[i][0] < 0) angle = 180;
+        printf("%.2f ", angle) ;
+        printf("%.2f\n", sqrt(matrix[i][0]*matrix[i][0] + matrix[i][1]*matrix[i][1]) );
+
+    }
+}
+
+int main()
+{
+    int N, coords[MAX_N + 1][2];
+    scanf("%d", &N);
+    
+    for (int i = 0; i < N; i++)
+        scanf("%d%d", &coords[i][0], &coords[i][1]);
+    
+    
+    convert_to_polar((int *) coords, N);
+    
+    return 0;
+}
