@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdint.h>
+
+int bingo (uint16_t num[]);
+int bingo (unsigned char num[]) {
+    int n = 0, check ;
+    for (int i = 0; i < 8; ++i) {
+        check = 1;
+        if (num[i] == 255) n += 1;
+        for (int j = 0; j < 8 ; ++j) {
+           check *= (num[j] >> i) & 1;
+           if(check==0)break;
+        }
+        n += check;
+    }
+    check = 1;
+    for (int i = 0; i <8 ; ++i) {
+        check *= ((num[i] >> i) & 1);
+    }
+    n += check;
+    check = 1;
+    for (int i = 0; i <8 ; ++i) {
+        check *= ((num[i] >> (7-i)) & 1);
+    }
+    n += check;
+   return n;
+}
+
+int main () {
+    uint16_t num[8];
+    for (int i = 0; i < 8; ++i) {
+        scanf("%hu", &num[i]);
+    }
+
+    printf("%d\n", bingo(num));
+}
