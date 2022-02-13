@@ -1,0 +1,28 @@
+#include<stdio.h>
+#include<stdlib.h>
+int main () {
+    int n;
+    union number{
+        int d;
+        float f;
+    }*data;
+    scanf("%d",&n);
+    data = malloc(sizeof(union number)*n);
+    for(int i = 0;i<n;i++){
+        scanf("%f",&data[i].f);
+    }
+    for(int i = 0;i<n;i++){
+        int check = 0;
+        for (int j = 0; j < 4; ++j) {
+            check += (data[i].d >> j*8) & 1;
+        }
+        if(check%2){
+            printf("Back\n");
+        }
+        else printf("Front\n");
+    }
+
+
+
+    return 0;
+}
