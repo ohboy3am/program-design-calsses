@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+
+int main () {
+    int amounts_of_rooms, amounts_of_rings = 0, remains, start = 0, next;
+    scanf("%d", &amounts_of_rooms);
+#define n amounts_of_rooms
+    int rooms[n];
+    int checking[n] ;
+    for(int i = 0; i < amounts_of_rooms; i++){
+        scanf("%d", &rooms[i]);
+    }
+    for(int i = 0; i < amounts_of_rooms; i++){
+        checking[i] = 0;
+    }
+
+    remains = amounts_of_rooms;
+    while(remains > 0){
+        next = start;
+        while(checking[next] == 0){
+            checking[next] = 1;
+            next = rooms[next];
+            remains--;
+        }
+        while(checking[start] == 1) start++;
+        amounts_of_rings++;
+    }
+    printf("%d rings\n", amounts_of_rings);
+
+    remains = amounts_of_rooms;
+    start = 0;
+    while(remains > 0){
+        next = start;
+        while(checking[next] == 1){
+            printf("%d", next);
+            checking[next] = 0;
+            next = rooms[next];
+            printf(" -> ");
+            remains--;
+        }
+        printf("%d\n", next);
+        while(checking[start] == 0) start++;
+    }
+    return 0;
+}
