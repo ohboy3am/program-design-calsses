@@ -1,0 +1,66 @@
+#include<stdio.h>
+#define MAX 200
+
+int reference[MAX][MAX];
+int check[MAX];
+int length[MAX] = {0};
+
+void checkinit(int n);
+void run(int root);
+
+
+int main(){
+    int n, head = 1, which;
+    scanf("%d",&n);
+    if(n == 0) return 0;
+
+    while(getchar()!='\n');
+    while(head)
+    {
+        
+
+        scanf("%d", &head);
+        if(head==0)break;
+
+        while (getchar() != '\n')
+        {
+            scanf("%d", &which);
+
+            reference[head-1][length[head-1]] = which-1;
+            length[head-1]++;
+
+        }
+    }
+
+
+
+
+    for(int i=0;i<n;i++){
+        checkinit(n);
+
+        run(i);
+        printf("%d -> ",i+1);
+        for(int j=0;j<n;j++){
+            if(check[j]==1) printf("%d ",j+1);
+        }
+        if(i!=(n-1))printf("\n");
+    }
+
+
+
+}
+
+void run(int root){
+    check[root] = 1;
+    for(int i=0;i< length[root] ;i++){
+        if( check[reference[root][i]]==0){
+            run(reference[root][i]);
+        }
+    }
+}
+
+void checkinit( int n){
+    for(int i=0;i<=n;i++){
+        check[i] = 0;
+    }
+}
