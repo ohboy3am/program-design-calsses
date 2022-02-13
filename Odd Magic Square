@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+int main(void){
+    int s, row, column;    //讀入
+    scanf("%d", &s);
+#define size s
+    int square[size][size] ;
+    for (int i = 0; i < size; ++i)
+    {
+        for (int j = 0; j < size; ++j)
+        {
+             square[i][j] = 0;
+        }
+    }
+    row = 0;
+    column = size / 2;
+    //在第一行中間放1
+    for(int i = 0; i < size * size ;i++){
+        square[row][column] = (i + 1);
+        if(square[(row - 1 + size) % size][(column + 1) % size] == 0){
+            row = (row - 1 + size) % size;
+            column = (column + 1) % size;
+        }
+        else row = (row + 1) % size;//取餘數避免超出邊界
+    }
+    
+    for (int i = 0; i < size; ++i)
+    {
+        for (int j = 0; j < size; ++j)
+        {
+            printf("%u ", square[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
