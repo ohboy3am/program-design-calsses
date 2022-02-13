@@ -1,0 +1,63 @@
+#include<stdio.h>
+#define MAX 150
+#define swap(x, y) {int tmp = x; x = y; y = tmp;}
+int check[MAX]={0}, sequel[MAX];
+
+
+int main () {
+    int n , a,c;
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &sequel[i]);
+    }
+
+
+
+   // for (int i = 0; i < n; ++i) printf("%d ", sequel[i]);
+   // printf("\n");
+    for (int w = 0; w < n; ++w) {
+        if(w==(n-1))w=0;
+        for (int ii = 0; ii < n; ++ii) check[ii]=0;
+        c = 0;
+        for (int i = 0; i < n; i++) {
+
+
+            if (check[i] == 0) {
+                for (int j = 0; j < n; j++) {
+                    if (check[j] == 0 && j != i) {
+                        for (int k = 0; k < n; k++) {
+                            if (check[k] == 0 && k != i && k != j) {
+                                if ((sequel[i] + sequel[k]) == sequel[j] || (sequel[j] + sequel[k]) == sequel[i] ||
+                                    (sequel[i] + sequel[j]) == sequel[k]) {
+                                    check[i] = 1;
+                                    check[j] = 1;
+                                    check[k] = 1;
+                                    c += 3;
+
+                                    //printf("%d %d %d [%d %d %d]\n", i, j, k, sequel[i], sequel[j], sequel[k]);
+                                    break;
+                                }
+                            }// if check[k] == 0
+                        }//for k
+                    }// if check[j]==0
+                    if (check[i]) break;
+                }// for j
+            } //if check[i==0]
+        }//for i
+        if(c==(n-1))break;
+        swap(sequel[0],sequel[n-w-1]);
+        //for (int i = 0; i < n; ++i) printf("%d ", sequel[i]);
+        //printf("\n");
+    }//for w
+
+   // for (int i = 0; i < n; ++i) printf("%d ", check[i]);
+    // printf("\n");
+    for (int i = 0; i < n; ++i) {
+        if (check[i] == 0){
+            printf("%d", sequel[i]);
+            break;
+        }
+    }
+    return 0;
+}
