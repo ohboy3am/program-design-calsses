@@ -1,0 +1,62 @@
+#include<stdio.h>
+void organize(long long);
+long long array[10000], reversearray[10000];
+int print_array[10000], indexx[2] = {0};
+char input[10000];
+int main () {
+    while( ( input[indexx[1]]=getchar() )  != '\n') indexx[1]++;
+    for (int i = 0;i < indexx[1];i++)
+    {
+        if('z' >= input[i] && input[i] >= 'a' )reversearray[i] = input[i] - 'a' + 0xa;
+        else if('Z' >= input[i] && input[i] >= 'A' )reversearray[i] = input[i] - 'A' + 0xa;
+        else reversearray[i] = input[i] - '0';
+    }
+    organize(-1);
+    for(int i = 0; i < indexx[0]; i++) printf("%x", print_array[i]);
+
+    return 0;
+}
+void organize(long long n) {
+    if(n==0) return;
+    int  digit = 0;
+    long long odd = 0, even = 0;
+    if(n != -1)
+    {
+        while (n > 0)
+        {
+            array[digit] = n % 0x10;
+            n /= 0x10;
+            digit++;
+        }
+        for(int i = 0; i < digit; i++) reversearray[i] = array[digit-i-1];
+    }
+    else digit = indexx[1];
+    
+    for (int i = 0; i < digit; i++) {
+        int parity = i;
+        parity %= 2;
+        switch (parity) {
+            case 0:
+                even += reversearray[i];
+                break;
+            case 1:
+                odd += reversearray[i];
+                break;
+            default: break;
+
+        }
+
+    }
+  
+    if (odd < 0x10 && digit > 1) {
+        print_array[indexx[0]] = odd;
+        indexx[0]++;
+    } else organize(odd);
+    
+      if (even < 0x10 && digit > 0) {
+        print_array[indexx[0]] = even;
+        indexx[0]++;
+    } else organize(even);
+
+
+}
