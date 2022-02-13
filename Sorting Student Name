@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX 101
+
+
+void namescan(char name[][MAX+1], int n);
+void casechanege(char  name[][MAX+1], char namecopy[][MAX+1], int n);
+void char_quick_sort(int start, int end, char name[][MAX+1], char namecopy[][MAX+1]);
+
+
+
+
+
+
+int main() {
+    int n;
+    char name[MAX][MAX+1], namecopy[MAX][MAX+1];
+    scanf("%d", &n);
+    getchar();
+    namescan(name,n);
+    casechanege(name, namecopy, n);
+    char_quick_sort(0, (n-1), name, namecopy);
+    for (int i = 0; i <n ; ++i) {
+        printf("%s\n", name[i]);
+    }
+    return 0;
+}
+
+
+
+
+void namescan(char name[][MAX+1], int n){
+    for (int i = 0; i <n ; ++i) {
+        fgets(name[i],MAX ,stdin);
+        name[i][strlen(name[i]) - 1] = '\0';  // remove newline
+    }
+}
+
+void casechanege(char  name[][MAX+1], char namecopy[][MAX+1], int n){
+
+
+    for (int i = 0; i <n ; ++i) {
+        strncpy(namecopy[i], name[i], MAX);
+    }
+
+    for (int i = 0; i <n ; ++i) {
+        for (int j = 0; j < strlen(namecopy[i]) ; ++j) {
+            if('A'<=namecopy[i][j] && namecopy[i][j]<='Z')
+                namecopy[i][j] += ('a'-'A');
+        }
+
+    }
+}
+
+void char_quick_sort(int start, int end, char name[][MAX+1], char namecopy[][MAX+1]){
+    if(start >= end)return;
+    int  low = start, high = end;
+    char middle[MAX+1], middleofname[MAX+1];
+    strncpy(middle, namecopy[low], MAX);
+    strncpy(middleofname, name[low], MAX);
+    while(high > low)
+    {
+        while ( strcmp(namecopy[high], middle) >= 0 && high > low) high--;
+        strncpy(namecopy[low], namecopy[high], MAX);
+        strncpy(name[low], name[high], MAX);
+
+        while (strcmp(namecopy[low], middle) <= 0 && high > low) low++;
+        strncpy(namecopy[high], namecopy[low], MAX);
+        strncpy(name[high], name[low], MAX);
+    }
+    strncpy(namecopy[high], middle, MAX);
+    strncpy(name[high], middleofname, MAX);
+    char_quick_sort(high+1, end, name, namecopy);
+    char_quick_sort(start, high-1, name, namecopy);
+}
