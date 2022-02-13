@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX 30
+
+
+int commandscan(char command[][MAX+1]);
+void game(int distance, int hp, char command[][MAX+1], int lines);
+
+char *move = "PATA PATA PATA PON", *attack = "PON PON PATA PON", *defense = "CHAKA CHAKA PATA PON";
+
+int main() {
+
+    char command[MAX][MAX+1];
+    int distance, hp, lines;
+    scanf("%d%d", &distance, &hp);
+    getchar();
+    lines = commandscan(command);
+    game(distance, hp, command, lines);
+    return 0;
+}
+
+
+
+
+int commandscan(char command[][MAX+1]){
+    char ch;
+    int i = 0, j = 0;
+    while((ch = getchar()) != '\n')
+    {
+        if(ch == ',' || ch == '.')
+        {
+            command[i][j] = '\0';
+            i++;
+            j = 0;
+        }
+        else command[i][j++] = ch;
+
+    }
+    command[i][j] = '\0';
+    return i;
+}
+
+
+void game(int distance, int hp, char command[][MAX+1], int lines){
+    if(hp <= 0){
+        printf("YES 0");
+        return;
+    }
+    if(distance <= 0){
+        printf("NO %d", hp);
+        return;
+    }
+    int strength = distance > 3? 0 : 1, perry = 0, index = 0;
+
+
+    for ( int i = 0; i <= lines ; ++i) {
+
+
+        if( ! strncmp(command[i], attack, MAX) )//指令為攻擊
+        {
+            index++;
+            hp -= strength;
+            if(!hp) break;
+        }
+
+        else if( ! strncmp(command[i], move, MAX) )//指令為移動
+        {
+            index++;
+            distance -= 1;
+            if(!distance) break;
+            strength = distance > 3? 0 : 1;
+        }
+        else if( ! strncmp(command[i], defense, MAX) )//指令為防禦
+        {
+            index++;
+            distance += 1;
+            strength = distance > 3? 0 : 1;
+            if(i%10 == 9 ) perry = 1;
+        }
+        
+        if(i%10 == 9){
+            if(perry) perry = 0;
+            else break;
+        }
+
+    }//for
+
+    if(hp>0) printf("NO %d", hp);
+    else printf("YES %d", index);
+
+
+}
