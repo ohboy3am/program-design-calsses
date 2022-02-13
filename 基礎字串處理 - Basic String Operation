@@ -1,0 +1,152 @@
+#include <stdio.h>
+#define swap(x, y) {int tmp = x; x = y; y = tmp;}
+#define MAX 5000
+
+void to_lower();
+void to_upper();
+void compress();
+void reverse();
+void Remove(char);
+void print();
+
+char str[MAX] = {0};
+
+
+
+
+
+int main () {
+    int scount = 0, n;
+    while( ( str[scount++] = getchar() ) != '\n');
+    str[scount-1] = '\0';
+    //for(int i = 0;i < scount;i++)printf("%c%d\n", str[i], (i+1));
+    scanf("%d", &n);
+    getchar();
+    for (int i = 0; i < n ; ++i) {
+        
+        
+        char command[10] = {0}, c;
+        int ccount = 0;
+        while( ( command[ccount++] = getchar() ) != '\n');
+        
+        
+        if(command[0]=='C') compress();
+        else if(command[0]=='P') print();
+        else if(command[2]=='V') reverse();
+        else if(command[3]=='O') Remove(command[7]);
+        else if(command[3]=='U') to_upper();
+        else if(command[3]=='L') to_lower();
+  
+    }
+
+    //while( ( command[ccount++] = getchar() ) != '\n');
+
+
+    return 0;
+}
+
+
+
+
+void compress(){
+    char newstr[MAX] = {0}, repeat;
+    int i = 0, j =0, k = 0;
+
+    while( str[i]!='\0' )
+    {
+        int r = 1;
+        repeat = str[i];
+        while( str[++i] == repeat )
+        {
+            r++;
+        }
+        newstr[j++] = '-';
+        newstr[j++] = repeat;
+        if(r>=1000)newstr[j++] = ( r / 1000 ) + '0';
+        if(r>=100)newstr[j++] = ( ( r % 1000 ) / 100 ) + '0';
+        if(r>=10)newstr[j++] = ( ( r % 100 ) / 10 ) + '0';
+        newstr[j++] = ( r % 10 ) + '0';
+    }
+    newstr[j] = '\0';
+    
+    int w = 0;//陣列歸零
+    while(str[w]!='\0')str[w++]=0;
+    str[w]=0;
+    
+    while( newstr[k]!='\0' )
+    {
+        str[k] = newstr[k];
+        k++;
+    }
+    str[k] = '\0';
+    
+    print();
+}
+
+void reverse(){
+    int count = 0;
+    while( str[count++]!='\0' );
+    count -= 2;
+    for (int i = 0; i <= (count)/2; ++i) {
+        swap(str[i], str[count-i])
+
+    }
+    print();
+
+}
+void Remove(char ch){
+    int i = 0;
+    while( str[i]!='\0' )
+    {
+        
+        if (str[i] == ch)
+        {
+            str[i]=0;
+            int j = i--;
+            
+            while(1  )
+            {
+                swap(str[j],str[j+1])
+                if (str[j]=='\0') break;
+                j++;
+            }
+            
+        }
+        
+        
+        i++;
+    }
+       if(str[0] == '\0')
+    {
+        str[0] = ch;
+        str[1] = '\0';
+    }
+    print();
+}
+void to_lower(){
+       int i = 0;
+        while( str[i]!='\0' )
+        {
+            if ('A' <= str[i] && str[i] <= 'Z') str[i] += ('a' - 'A');
+            i++;
+        }
+    print();
+
+}
+void to_upper(){
+    int i = 0;
+    while( str[i]!='\0' )
+    {
+        if ('a' <= str[i] && str[i] <= 'z') str[i] += ('A' - 'a');
+        i++;
+    }
+    print();
+}
+
+	
+void print(){
+    int pcount = 0;
+       while( str[pcount]!='\0' ) printf("%c", str[pcount++]);
+       printf(" \n");
+    
+}
