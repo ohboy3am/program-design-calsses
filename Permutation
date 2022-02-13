@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <string.h>
+
+void quick_sort(int start, int end,  char array[]);
+void printing(char pre[],char letters[]);
+int main(void){
+    char letters[7];
+    scanf("%s", letters);
+    quick_sort(0, (int)strlen(letters)-1, letters);
+    printing("\0",letters);
+    return 0;
+}
+
+void quick_sort(int start, int end,  char array[]){
+    if(start >= end)return;
+    char middle;
+    int  low = start, high = end;
+    middle = array[low];
+    while(high > low)
+    {
+        while (array[high] >=middle && high > low) high--;
+        array[low] = array[high];
+        while (array[low] <= middle && high > low) low++;
+        array[high] = array[low];
+    }
+    array[high] = middle;
+    quick_sort(high+1, end, array);
+    quick_sort(start, high-1, array);
+}
+
+void printing(char pre[],char letters[]){
+    if(strlen(letters)==1)
+    {
+        printf("%s",pre);
+        printf("%c\n",*letters);
+        return;
+    }
+    char  *copylet = letters;
+    while(*copylet != '\0')
+    {
+
+
+        char newletters[7], newpre[7];
+        strncpy(newpre,pre,7);
+        int index = 0;
+
+            while(newpre[index]!='\0')index++;
+            newpre[index++] = *copylet;
+            newpre[index] = '\0';
+            index = 0;
+            for(int i = 0;i<strlen(letters);i++)
+            {
+                if(letters[i] != *copylet)
+                newletters[index++] = letters[i];
+
+            }
+            newletters[index] = '\0';
+
+            printing(newpre,newletters);
+            copylet++;
+
+    }
+
+}
