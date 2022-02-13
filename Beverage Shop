@@ -1,0 +1,156 @@
+#include <stdio.h>
+
+
+void sugarice(int *sugar, int *ice);
+
+int array[8] = {0};
+int matrix[9][6]={
+        //{B,W,T,G,M,PRICE}
+        {0,0,0,500,0,20},//G
+        {500,0,0,0,0,20},//B
+        {0,0,500,0,0,30},//T
+        {0,500,0,0,0,15},//W
+        {0,0,250,250,0,45},//GT
+        {0,150,350,0,0,40},//WT
+        {200,0,0,0,300,35},//BM
+        {0,0,200,0,300,45},//TM
+        {0,200,0,0,300,30}//WM
+
+};
+
+int main () {
+    int  n;
+    for (int i = 0; i < 7; ++i) {
+        scanf("%d",  &array[i]);
+        array[i] *= 1000;
+    }
+    scanf("%d", &n);
+
+    for (int i = 0; i < n ; ++i) {
+
+        char c, sc;
+        int  sugar = 0, ice = 0, row;
+        while(getchar()!='\n');
+        c = getchar();
+        if(c =='G'){
+            sc=getchar();
+            scanf("%d/%d", &sugar, &ice);
+            if(sc==' ')
+            {
+                row = 0;
+            }
+            else
+            {
+
+                row = 4;
+            }
+
+        }
+        else if(c =='B'){
+            sc=getchar();
+            scanf("%d/%d", &sugar, &ice);
+            if(sc==' ')
+            {
+                row = 1;
+            }
+            else
+            {
+
+                row = 6;
+            }
+
+        }
+        else if(c =='T'){
+            sc=getchar();
+            scanf("%d/%d", &sugar, &ice);
+            if(sc==' ')
+            {
+                row = 2;
+            }
+            else
+            {
+
+                row = 7;
+            }
+
+        }
+        else if(c =='W'){
+            sc=getchar();
+            scanf("%d/%d", &sugar, &ice);
+            if(sc==' ')
+            {
+                row = 3;
+            }
+            else if(sc=='T')
+            {
+                row = 5;
+            }
+            else
+            {
+
+                row = 8;
+            }
+
+        }
+
+
+        for (int j = 0; j <5 ; ++j) {
+            array[j] -= matrix[row][j];
+        }
+        sugarice(&sugar, &ice);
+        array[5] -= sugar;
+        array[6] -= ice;
+        array[7] += matrix[row][5];
+
+    }
+
+
+    for (int i = 0; i <7 ; ++i) {
+        printf("%d ", array[i]);
+    }
+    printf("\n%d", array[7]);
+    return 0;
+}
+
+
+void sugarice(int *sugar, int *ice){
+    switch (*sugar) {
+        case 1:
+            *sugar = 0;
+            break;
+        case 2:
+            *sugar = 3;
+            break;
+        case 3:
+            *sugar = 5;
+            break;
+        case 4:
+            *sugar = 7;
+            break;
+        case 5:
+            *sugar = 10;
+            break;
+        default:
+            break;
+    }
+
+    switch (*ice) {
+        case 1:
+            *ice = 0;
+            break;
+        case 2:
+            *ice = 30;
+            break;
+        case 3:
+            *ice = 50;
+            break;
+        case 4:
+            *ice = 70;
+            break;
+        case 5:
+            *ice  = 100;
+            break;
+        default:
+            break;
+    }
+}
